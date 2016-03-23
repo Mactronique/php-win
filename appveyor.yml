@@ -55,7 +55,7 @@ install:
   - git clone https://github.com/phpredis/phpredis.git phpredis-php7
   - cd phpredis-php7
   - git checkout php7
-  - cd ..
+  - cd ..\..
   - echo Downloading PHP-Devel-Pack
   - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-devel-pack-' + ${env:PHP_VERSION} + '-Win32-VC' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-sdk\phpdev\vc14\x64\php-dev.zip')
   - 7z.exe x php-dev.zip | FIND /V "ing  "
@@ -63,13 +63,6 @@ install:
   - '"%VS140COMNTOOLS%\VsDevCmd" %BUILD_PLATFORM%'
   - echo Building PHP [%PHP_VERSION%]
   - '%PHP_SDK%\bin\phpsdk_setvars'
-  - 'cd %APPVEYOR_BUILD_FOLDER%\..\php'
-  - 'echo extension_dir=%APPVEYOR_BUILD_FOLDER%\..\php\ext > php.ini'
-  - 'echo extension=%APPVEYOR_BUILD_FOLDER%\ext\Release_TS\php_test.dll >> php.ini'
-  - 'echo extension=php_openssl.dll >> php.ini'
-  - 'echo extension=php_pdo_sqlite.dll >> php.ini'
-  - 'echo extension=php_gmp.dll >> php.ini'
-  - 'set PATH=%cd%;%PATH%'
   - cd %APPVEYOR_BUILD_FOLDER%
 
 build_script:
