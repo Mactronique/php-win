@@ -56,8 +56,6 @@ install:
   - cd phpredis-php7
   - git checkout php7
   - cd ..
-  - svn co http://svn.php.net/viewvc/pecl/wincache/branches/WinCache_PHP7/ wincache-php7
-  - cd ..
   - echo Downloading PHP-Devel-Pack
   - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-devel-pack-' + ${env:PHP_VERSION} + '-Win32-VC' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-sdk\phpdev\vc14\x64\php-dev.zip')
   - 7z.exe x php-dev.zip | FIND /V "ing  "
