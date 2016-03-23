@@ -64,6 +64,7 @@ install:
   - '"%VS140COMNTOOLS%\VsDevCmd" %BUILD_PLATFORM%'
   - echo Building PHP [%PHP_VERSION%]
   - '%PHP_SDK%\bin\phpsdk_setvars'
+  - set
 
 build_script:
   - 'build.bat'
