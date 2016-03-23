@@ -61,7 +61,6 @@ install:
   - copy %APPVEYOR_BUILD_FOLDER%\lib\*.lib .
   - cd ..\..\php-%PHP_VERSION%-src
   - copy %APPVEYOR_BUILD_FOLDER%\bin\build.bat .
-  - '"%VS140COMNTOOLS%\VsDevCmd" %BUILD_PLATFORM%'
   - '"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall" %platform%'
   - echo Building PHP [%PHP_VERSION%]
   - '%PHP_SDK%\bin\phpsdk_setvars'
