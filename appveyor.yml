@@ -50,6 +50,14 @@ install:
   - '7z.exe x ..\php-deps.zip | FIND /V "ing  "'
   - dir
   - cd ..
+  - mkdir pecl && cd pecl
+  - git clone https://github.com/pdezwart/php-amqp.git php-amqp-master
+  - git clone https://github.com/phpredis/phpredis.git phpredis-php7
+  - cd phpredis-php7
+  - git checkout php7
+  - cd ..
+  - svn co http://svn.php.net/viewvc/pecl/wincache/branches/WinCache_PHP7/ wincache-php7
+  - cd ..
   - echo Downloading PHP-Devel-Pack
   - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-devel-pack-' + ${env:PHP_VERSION} + '-Win32-VC' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-dev.zip')
   - 7z.exe x php-dev.zip | FIND /V "ing  "
