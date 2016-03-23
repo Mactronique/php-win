@@ -38,6 +38,7 @@ install:
   - cd phpdev
   - mkdir vc14 && cd vc14
   - mkdir x64 && cd x64
+  - mkdir obj
   - echo Downloading PHP source code [%PHP_VERSION%]
   - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-' + ${env:PHP_VERSION} + '-src.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-sdk\phpdev\vc14\x64\php.zip')
   - 'mkdir php-%PHP_VERSION%-src && mv php.zip php-%PHP_VERSION%-src\php.zip && cd php-%PHP_VERSION%-src'
