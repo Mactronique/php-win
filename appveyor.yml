@@ -59,13 +59,16 @@ install:
   - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-devel-pack-' + ${env:PHP_VERSION} + '-Win32-VC' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-sdk\phpdev\vc14\x64\php-dev.zip')
   - 7z.exe x php-dev.zip | FIND /V "ing  "
   - mv php-%PHP_VERSION%-devel-VC%PHP_VC%-%BUILD_PLATFORM% php-devpack
+  - cd deps\include
+  - copy %APPVEYOR_BUILD_FOLDER%\include\*.h .
+  - cd ..\lib
+  - copy %APPVEYOR_BUILD_FOLDER%\lib\*.lib .
+  - cd ..\..\php-%PHP_VERSION%-src
+  - copy %APPVEYOR_BUILD_FOLDER%\bin\build.bat .
+  - cd %APPVEYOR_BUILD_FOLDER%\..\php-sdk\phpdev\vc14\x64\php-%PHP_VERSION%-src
   - '"%VS140COMNTOOLS%\VsDevCmd" %BUILD_PLATFORM%'
   - echo Building PHP [%PHP_VERSION%]
   - '%PHP_SDK%\bin\phpsdk_setvars'
-  - copy %APPVEYOR_BUILD_FOLDER%\include\*.h %PHP_SDK%\phpdev\vc14\x64\deps\include\
-  - copy %APPVEYOR_BUILD_FOLDER%\lib\*.lib %PHP_SDK%\phpdev\vc14\x64\deps\lib\
-  - copy %APPVEYOR_BUILD_FOLDER%\bin\build.bat %PHP_SDK%\phpdev\vc14\x64\php-%PHP_VERSION%-src
-  - cd %APPVEYOR_BUILD_FOLDER%\..\php-sdk\phpdev\vc14\x64\php-%PHP_VERSION%-src
 
 build_script:
   - 'build.bat'
