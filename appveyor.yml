@@ -36,11 +36,10 @@ install:
   - dir
   - bin\phpsdk_buildtree.bat phpdev
   - cd phpdev
-  - 'mkdir vc14 && cd vc14'
-  - 'mkdir x64 && cd x64'
+  - mkdir vc14 && cd vc14
+  - mkdir x64 && cd x64
   - echo Downloading PHP source code [%PHP_VERSION%]
   - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-' + ${env:PHP_VERSION} + '-src.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php.zip')
-  - cd ..
   - 'mkdir php-%PHP_VERSION%-src && mv php.zip php-%PHP_VERSION%-src\php.zip && cd php-%PHP_VERSION%-src'
   - 7z.exe x php.zip | FIND /V "ing  "
   - dir
