@@ -3,11 +3,12 @@ environment:
   - PHP_VERSION: latest
     PHP_DEP_VER: 7.0
   BUILD_PLATFORM: x64
-  PLATFORM: x64
   BITS: 64
   PHP_VC: 14
   PHP_SDK: c:\projects\php-sdk
   PHP_DEVPACK: c:\projects\php-devpack
+
+platform: x64
 
 cache:
   - vendor -> composer.json
