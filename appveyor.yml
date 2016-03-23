@@ -18,8 +18,6 @@ build:
 
 install:
   - echo Setting PHP version...
-  - set
-  - '"%VCINSTALLDIR%\vcvarsall.bat" %BUILD_PLATFORM%'
   - ps: >-
       If ($env:PHP_VERSION -Match "latest") {
         Start-FileDownload 'http://windows.php.net/downloads/releases/sha1sum.txt'
@@ -64,6 +62,7 @@ install:
   - cd ..\..\php-%PHP_VERSION%-src
   - copy %APPVEYOR_BUILD_FOLDER%\bin\build.bat .
   - '"%VS140COMNTOOLS%\VsDevCmd" %BUILD_PLATFORM%'
+  - '"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall" %platform%'
   - echo Building PHP [%PHP_VERSION%]
   - '%PHP_SDK%\bin\phpsdk_setvars'
   - set
