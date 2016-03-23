@@ -28,21 +28,26 @@ install:
       }
   - echo Initializing Build...
   - cd %APPVEYOR_BUILD_FOLDER%
-  - echo Downloading PHP source code [%PHP_VERSION%]
-  - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-' + ${env:PHP_VERSION} + '-Win32-VC' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php.zip')
-  - cd ..
-  - 'mkdir php && mv php.zip php\php.zip && cd php'
-  - 7z.exe x php.zip | FIND /V "ing  "
-  - dir
-  - cd ..
   - echo Downloading PHP-SDK
   - mkdir php-sdk && cd php-sdk
   - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/php-sdk/php-sdk-binary-tools-20110915.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-sdk.zip')
   - '7z.exe x ..\php-sdk.zip | FIND /V "ing  "'
   - dir
+  - bin\phpsdk_buildtree.bat phpdev
+  - cd phpdev
+  - move vc9 vc14
+  - cd vc14
+  - mkdir x64
+  - cd x64  
+  - echo Downloading PHP source code [%PHP_VERSION%]
+  - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-' + ${env:PHP_VERSION} + '-src.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php.zip')
+  - cd ..
+  - 'mkdir php-%PHP_VERSION%-src && mv php.zip php-%PHP_VERSION%-src\php.zip && cd php-%PHP_VERSION%-src'
+  - 7z.exe x php.zip | FIND /V "ing  "
+  - dir
   - cd ..
   - echo Downloading PHP-DEPS
-  - mkdir php-sdk && cd php-sdk
+  - mkdir deps && cd deps
   - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/php-sdk/deps-' + ${env:PHP_DEP_VER} + '-vc' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.7z', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-deps.zip')
   - '7z.exe x ..\php-deps.zip | FIND /V "ing  "'
   - dir
