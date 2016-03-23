@@ -43,7 +43,6 @@ install:
   - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-' + ${env:PHP_VERSION} + '-src.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-sdk\phpdev\vc14\x64\php.zip')
   - 7z.exe x php.zip | FIND /V "ing  "
   - dir
-  - cd ..
   - echo Downloading PHP-DEPS
   - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/php-sdk/deps-' + ${env:PHP_DEP_VER} + '-vc' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.7z', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-sdk\phpdev\vc14\x64\php-deps.zip')
   - '7z.exe x php-deps.zip | FIND /V "ing  "'
