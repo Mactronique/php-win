@@ -1,0 +1,77 @@
+environment:
+  matrix:
+  - PHP_VERSION: latest
+    PHP_DEP_VER: 7.0
+  BUILD_PLATFORM: x64
+  PHP_VC: 14
+  PHP_SDK: c:\projects\php-sdk
+  PHP_DEVPACK: c:\projects\php-devpack
+
+cache:
+  - vendor -> composer.json
+
+os: Windows Server 2012
+clone_folder: c:\projects\php-win
+
+matrix:
+  fast_finish: true
+
+install:
+  - echo Setting PHP version...
+  - ps: >-
+      If ($env:PHP_VERSION -Match "latest") {
+        Start-FileDownload 'http://windows.php.net/downloads/releases/sha1sum.txt'
+        $env:PHP_VERSION=type sha1sum.txt | where { $_ -match "php-(7\.0\.\d+)-src" } | foreach { $matches[1] }
+        $env:version='{build}-$(PHP_VERSION)'
+      } Else {
+        $env:version='{build}-$(PHP_VERSION)'
+      }
+  - echo Initializing Build...
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - echo Downloading PHP source code [%PHP_VERSION%]
+  - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-' + ${env:PHP_VERSION} + '-Win32-VC' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php.zip')
+  - cd ..
+  - 'mkdir php && mv php.zip php\php.zip && cd php'
+  - 7z.exe x php.zip | FIND /V "ing  "
+  - dir
+  - cd ..
+  - echo Downloading PHP-SDK
+  - mkdir php-sdk && cd php-sdk
+  - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/php-sdk/php-sdk-binary-tools-20110915.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-sdk.zip')
+  - '7z.exe x ..\php-sdk.zip | FIND /V "ing  "'
+  - dir
+  - cd ..
+  - echo Downloading PHP-DEPS
+  - mkdir php-sdk && cd php-sdk
+  - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/php-sdk/deps-' + ${env:PHP_DEP_VER} + '-vc' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.7z', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-deps.zip')
+  - '7z.exe x ..\php-deps.zip | FIND /V "ing  "'
+  - dir
+  - cd ..
+  - echo Downloading PHP-Devel-Pack
+  - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-devel-pack-' + ${env:PHP_VERSION} + '-Win32-VC' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-dev.zip')
+  - 7z.exe x php-dev.zip | FIND /V "ing  "
+  - mv php-%PHP_VERSION%-devel-VC%PHP_VC%-%BUILD_PLATFORM% php-devpack
+  - '"%VS140COMNTOOLS%\VsDevCmd" %BUILD_PLATFORM%'
+  - echo Building PHP [%PHP_VERSION%]
+  - '%PHP_SDK%\bin\phpsdk_setvars'
+  - 'cd %APPVEYOR_BUILD_FOLDER%\..\php'
+  - 'echo extension_dir=%APPVEYOR_BUILD_FOLDER%\..\php\ext > php.ini'
+  - 'echo extension=%APPVEYOR_BUILD_FOLDER%\ext\Release_TS\php_test.dll >> php.ini'
+  - 'echo extension=php_openssl.dll >> php.ini'
+  - 'echo extension=php_pdo_sqlite.dll >> php.ini'
+  - 'echo extension=php_gmp.dll >> php.ini'
+  - 'set PATH=%cd%;%PATH%'
+  - cd %APPVEYOR_BUILD_FOLDER%
+
+build_script:
+  - 'bin\build.bat'
+  - 'type compile-errors.log'
+  - 'type compile.log'
+
+on_failure :
+  - 'dir'
+  - 'type compile-errors.log'
+  - 'type compile.log'
+
+artifacts:
+  - path: parser\Release\php_zephir_parser.dll
