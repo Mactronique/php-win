@@ -18,7 +18,8 @@ build:
 
 install:
   - echo Setting PHP version...
-  - call "%VCINSTALLDIR%\vcvarsall.bat" %BUILD_PLATFORM%
+  - set
+  - '"%VCINSTALLDIR%\vcvarsall.bat" %BUILD_PLATFORM%'
   - ps: >-
       If ($env:PHP_VERSION -Match "latest") {
         Start-FileDownload 'http://windows.php.net/downloads/releases/sha1sum.txt'
