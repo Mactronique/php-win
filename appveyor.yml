@@ -64,9 +64,9 @@ install:
   - '"%VS140COMNTOOLS%\VsDevCmd" %BUILD_PLATFORM%'
   - echo Building PHP [%PHP_VERSION%]
   - '%PHP_SDK%\bin\phpsdk_setvars'
-  - cp %APPVEYOR_BUILD_FOLDER%\include\*.h %APPVEYOR_BUILD_FOLDER%\..\php-sdk\phpdev\vc14\x64\deps\include\
-  - cp %APPVEYOR_BUILD_FOLDER%\lib\*.lib %APPVEYOR_BUILD_FOLDER%\..\php-sdk\phpdev\vc14\x64\deps\lib\
-  - cp %APPVEYOR_BUILD_FOLDER%\bin\build.bat %APPVEYOR_BUILD_FOLDER%\..\php-sdk\phpdev\vc14\x64\php-%PHP_VERSION%-src
+  - copy %APPVEYOR_BUILD_FOLDER%\include\*.h %APPVEYOR_BUILD_FOLDER%\..\php-sdk\phpdev\vc14\x64\deps\include\
+  - copy %APPVEYOR_BUILD_FOLDER%\lib\*.lib %APPVEYOR_BUILD_FOLDER%\..\php-sdk\phpdev\vc14\x64\deps\lib\
+  - copy %APPVEYOR_BUILD_FOLDER%\bin\build.bat %APPVEYOR_BUILD_FOLDER%\..\php-sdk\phpdev\vc14\x64\php-%PHP_VERSION%-src
   - cd %APPVEYOR_BUILD_FOLDER%\..\php-sdk\phpdev\vc14\x64\php-%PHP_VERSION%-src
 
 build_script:
