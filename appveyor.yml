@@ -28,6 +28,7 @@ install:
       }
   - echo Initializing Build...
   - cd %APPVEYOR_BUILD_FOLDER%
+  - cd ..
   - echo Downloading PHP-SDK
   - mkdir php-sdk && cd php-sdk
   - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/php-sdk/php-sdk-binary-tools-20110915.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-sdk.zip')
