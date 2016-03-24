@@ -61,14 +61,14 @@ install:
   - copy %APPVEYOR_BUILD_FOLDER%\lib\*.lib .
   - cd ..\..\php-%PHP_VERSION%-src
   - copy %APPVEYOR_BUILD_FOLDER%\bin\build.bat .
-  - '"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall" %platform%'
+  - '"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall" %BUILD_PLATFORM%'
   - echo Building PHP [%PHP_VERSION%]
   - '%PHP_SDK%\bin\phpsdk_setvars'
   - set
   - 'buildconf'
   - 'configure.bat --help | findstr amqp'
   - 'configure.bat --help | findstr redis'
-  - 'configure.bat "--enable-snapshot-build" "--enable-debug-pack" "--disable-zts" "--with-amqp=shared" "--enable-object-out-dir=../obj/" "--enable-phar-native-ssl" "--with-sqlite3" "--with-pdo-sqlite" "--enable-odbc" "--with-pdo-odbc" "--enable-redis=shared" "--enable-com-dotnet=shared" "--with-mcrypt=static" "--without-analyzer"'
+  - 'configure.bat "--enable-snapshot-build" "--enable-debug-pack" "--disable-zts" "--enable-object-out-dir=../obj/" "--with-sqlite3" "--with-pdo-sqlite" "--enable-odbc" "--with-pdo-odbc" "--enable-com-dotnet=shared" "--with-mcrypt=static" "--without-analyzer"'
 
 build_script:
   - 'nmake'
