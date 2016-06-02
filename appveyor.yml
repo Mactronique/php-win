@@ -3,76 +3,48 @@ platform:
   - x64
 version: 1.0.{build}
 
-environment:
-  matrix:
-  - PHP_VERSION: latest
-    PHP_DEP_VER: 7.0
-  BUILD_PLATFORM: x64
-  BITS: 64
-  PHP_VC: 14
-  PHP_SDK: c:\projects\php-sdk
-  PHP_DEVPACK: c:\projects\php-devpack
-
 build:
   verbosity: normal
 
 install:
-  - echo Setting PHP version...
-  - ps: >-
-      If ($env:PHP_VERSION -Match "latest") {
-        Start-FileDownload 'http://windows.php.net/downloads/releases/sha1sum.txt'
-        $env:PHP_VERSION=type sha1sum.txt | where { $_ -match "php-(7\.0\.\d+)-src" } | foreach { $matches[1] }
-        $env:version='{build}-$(PHP_VERSION)'
-      } Else {
-        $env:version='{build}-$(PHP_VERSION)'
-      }
-  - echo Initializing Build...
-  - cd %APPVEYOR_BUILD_FOLDER%
-  - cd ..
-  - echo Downloading PHP-SDK
-  - mkdir php-sdk && cd php-sdk
-  - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/php-sdk/php-sdk-binary-tools-20110915.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-sdk.zip')
-  - '7z.exe x ..\php-sdk.zip | FIND /V "ing  "'
-  - dir
-  - bin\phpsdk_buildtree.bat phpdev
-  - cd phpdev
-  - mkdir vc14 && cd vc14
-  - mkdir x64 && cd x64
-  - mkdir obj
-  - echo Downloading PHP source code [%PHP_VERSION%]
-  - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-' + ${env:PHP_VERSION} + '-src.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-sdk\phpdev\vc14\x64\php.zip')
-  - 7z.exe x php.zip | FIND /V "ing  "
-  - dir
-  - echo Downloading PHP-DEPS
-  - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/php-sdk/deps-' + ${env:PHP_DEP_VER} + '-vc' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.7z', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-sdk\phpdev\vc14\x64\php-deps.zip')
-  - '7z.exe x php-deps.zip | FIND /V "ing  "'
-  - dir
-  - mkdir pecl && cd pecl
-  - git clone https://github.com/pdezwart/php-amqp.git php-amqp-master
-  - git clone -q --branch=php7 https://github.com/phpredis/phpredis.git phpredis-php7
-  - cd ..
-  - echo Downloading PHP-Devel-Pack
-  - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-devel-pack-' + ${env:PHP_VERSION} + '-Win32-VC' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-sdk\phpdev\vc14\x64\php-dev.zip')
-  - 7z.exe x php-dev.zip | FIND /V "ing  "
-  - mv php-%PHP_VERSION%-devel-VC%PHP_VC%-%BUILD_PLATFORM% php-devpack
-  - cd deps\include
-  - copy %APPVEYOR_BUILD_FOLDER%\include\*.h .
-  - cd ..\lib
-  - copy %APPVEYOR_BUILD_FOLDER%\lib\*.lib .
-  - cd ..\..\php-%PHP_VERSION%-src
-  - copy %APPVEYOR_BUILD_FOLDER%\bin\build.bat .
-  - '"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall" %BUILD_PLATFORM%'
-  - echo Building PHP [%PHP_VERSION%]
-  - '%PHP_SDK%\bin\phpsdk_setvars'
-  - set
-  - 'buildconf'
-  - 'configure.bat --help | findstr amqp'
-  - 'configure.bat --help | findstr redis'
-  - 'configure.bat "--enable-snapshot-build" "--enable-debug-pack" "--disable-zts" "--enable-object-out-dir=../obj/" "--with-sqlite3" "--with-pdo-sqlite" "--enable-odbc" "--with-pdo-odbc" "--enable-com-dotnet=shared" "--with-mcrypt=static" "--without-analyzer"'
-
+- cmd: cinst wget
+- cmd: mkdir C:\projects\extension\bin
+- cmd: wget https://getcomposer.org/composer.phar -O C:\projects\extension\bin\composer.phar
 build_script:
-  - 'nmake'
-  - 'nmake build-dist'
-  
-on_failure :
-  - 'dir'
+- cmd: >-
+    "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall amd64"
+
+    wget http://windows.php.net/downloads/php-sdk/php-sdk-binary-tools-20110915.zip
+
+    7z x -y php-sdk-binary-tools-20110915.zip -oC:\projects\php-sdk
+
+    C:\projects\php-sdk\bin\phpsdk_setvars.bat
+
+    git clone -q --branch=PHP-7.0.7 https://github.com/php/php-src C:\projects\php-src
+
+    mkdir C:\projects\php-src\ext\amqp
+    mkdir C:\projects\php-src\ext\phpredis
+
+    git clone https://github.com/pdezwart/php-amqp.git C:\projects\php-src\ext\amqp
+    git clone -q --branch=php7 https://github.com/phpredis/phpredis.git C:\projects\php-src\ext\phpredis
+
+    wget http://windows.php.net/downloads/php-sdk/deps-7.0-vc14-x64.7z
+
+    7z x -y deps-7.0-vc14-x64.7z -oC:\projects\php-src
+
+    cd C:\projects\php-src
+
+    buildconf.bat
+
+    configure.bat --disable-all --enable-phar --enable-json --enable-hash --enable-ctype --enable-filter --enable-tokenizer --enable-zip --with-iconv --with-openssl --with-dom --with-libxml --enable-cli --enable-amqp=shared --enable-redis=shared --with-config-file-scan-dir=C:\projects\extension\bin\modules.d --with-prefix=C:\projects\extension\bin --with-php-build=deps
+
+    nmake
+
+    nmake install
+
+    copy php.ini-development C:\projects\extension\bin\php.ini
+    
+artifacts:
+  - path: bin
+    name: master
+    type: zip
