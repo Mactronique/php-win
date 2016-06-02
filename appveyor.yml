@@ -62,9 +62,6 @@ build_script:
 
     copy php.ini-development C:\projects\extension\bin\php.ini
 
-test_script:
-- cmd: nmake tests
-
 artifacts:
   - path: extension\bin
     name: master
