@@ -12,7 +12,7 @@ install:
 - cmd: wget https://getcomposer.org/composer.phar -O C:\projects\extension\bin\composer.phar
 build_script:
 - cmd: >-
-    "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall amd64"
+    "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall" amd64
 
     wget http://windows.php.net/downloads/php-sdk/php-sdk-binary-tools-20110915.zip
 
@@ -26,6 +26,9 @@ build_script:
     mkdir C:\projects\php-src\ext\phpredis
 
     git clone https://github.com/pdezwart/php-amqp.git C:\projects\php-src\ext\amqp
+    cd C:\projects\php-src\ext\amqp
+    git checkout tags/v1.7.0 C:\projects\php-src\ext\amqp
+    cd %APPVEYOR_BUILD_FOLDER%
     git clone -q --branch=php7 https://github.com/phpredis/phpredis.git C:\projects\php-src\ext\phpredis
 
     wget http://windows.php.net/downloads/php-sdk/deps-7.0-vc14-x64.7z
