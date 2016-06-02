@@ -32,13 +32,17 @@ build_script:
     
     git checkout tags/v1.7.0 C:\projects\php-src\ext\amqp
     
-    cd %APPVEYOR_BUILD_FOLDER
+    cd %APPVEYOR_BUILD_FOLDER%
     
     git clone -q --branch=php7 https://github.com/phpredis/phpredis.git C:\projects\php-src\ext\phpredis
 
     wget http://windows.php.net/downloads/php-sdk/deps-7.0-vc14-x64.7z
 
     7z x -y deps-7.0-vc14-x64.7z -oC:\projects\php-src
+
+    copy %APPVEYOR_BUILD_FOLDER%\include\*.h C:\projects\php-src\deps\incude\
+    
+    copy %APPVEYOR_BUILD_FOLDER%\lib\*.lib C:\projects\php-src\deps\lib\
 
     cd C:\projects\php-src
 
