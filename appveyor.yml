@@ -61,6 +61,8 @@ build_script:
     nmake install
 
     copy php.ini-development C:\projects\extension\bin\php.ini
+    
+    dir %APPVEYOR_BUILD_FOLDER%
 
 artifacts:
   - path: '*'
