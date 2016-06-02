@@ -23,12 +23,17 @@ build_script:
     git clone -q --branch=PHP-7.0.7 https://github.com/php/php-src C:\projects\php-src
 
     mkdir C:\projects\php-src\ext\amqp
+    
     mkdir C:\projects\php-src\ext\phpredis
 
     git clone https://github.com/pdezwart/php-amqp.git C:\projects\php-src\ext\amqp
+    
     cd C:\projects\php-src\ext\amqp
+    
     git checkout tags/v1.7.0 C:\projects\php-src\ext\amqp
-    cd %APPVEYOR_BUILD_FOLDER%
+    
+    cd %APPVEYOR_BUILD_FOLDER
+    
     git clone -q --branch=php7 https://github.com/phpredis/phpredis.git C:\projects\php-src\ext\phpredis
 
     wget http://windows.php.net/downloads/php-sdk/deps-7.0-vc14-x64.7z
