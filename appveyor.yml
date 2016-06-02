@@ -39,8 +39,10 @@ build_script:
     wget http://windows.php.net/downloads/php-sdk/deps-7.0-vc14-x64.7z
 
     7z x -y deps-7.0-vc14-x64.7z -oC:\projects\php-src
+    
+    dir C:\projects\php-src
 
-    copy %APPVEYOR_BUILD_FOLDER%\include\*.h C:\projects\php-src\deps\incude\
+    copy %APPVEYOR_BUILD_FOLDER%\include\*.h C:\projects\php-src\deps\include\
     
     copy %APPVEYOR_BUILD_FOLDER%\lib\*.lib C:\projects\php-src\deps\lib\
 
