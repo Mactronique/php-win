@@ -63,6 +63,6 @@ build_script:
     copy php.ini-development C:\projects\extension\bin\php.ini
 
 artifacts:
-  - path: ..\extension\bin
+  - path: '*'
     name: master
     type: zip
