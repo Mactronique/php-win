@@ -50,6 +50,10 @@ build_script:
 
     buildconf.bat
 
+    configure.bat --help | findstr amqp
+
+    configure.bat --help | findstr redis
+
     configure.bat --disable-all --enable-phar --enable-json --enable-hash --enable-ctype --enable-filter --enable-tokenizer --enable-zip --with-iconv --with-openssl --with-dom --with-libxml --enable-cli --enable-amqp=shared --enable-redis=shared --with-config-file-scan-dir=C:\projects\extension\bin\modules.d --with-prefix=C:\projects\extension\bin --with-php-build=deps
 
     nmake
