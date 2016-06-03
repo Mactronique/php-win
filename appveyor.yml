@@ -9,7 +9,7 @@ build:
 install:
 - cmd: cinst wget
 - cmd: mkdir C:\projects\php-win\build
-- cmd: wget https://getcomposer.org/composer.phar -O C:\projects\php-win\build\composer.phar
+
 build_script:
 - cmd: >-
     "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall" amd64
@@ -54,17 +54,14 @@ build_script:
 
     configure.bat --help | findstr redis
 
-    configure.bat --disable-all --disable-zts  --enable-phar --enable-json --enable-hash --enable-ctype --enable-filter --enable-tokenizer --enable-zip --with-iconv --with-openssl --with-dom --with-libxml --enable-cli --with-amqp=shared --enable-redis=shared --with-config-file-scan-dir=C:\projects\php-win\build\modules.d --with-prefix=C:\projects\php-win\build --with-php-build=deps
+    configure.bat --disable-all --disable-zts  --with-openssl --enable-cli --with-amqp=shared --enable-redis=shared --with-config-file-scan-dir=C:\projects\php-win\build\modules.d --with-prefix=C:\projects\php-win\build --with-php-build=deps
 
     nmake
 
     nmake install
 
     copy php.ini-development C:\projects\php-win\build\php.ini
-    
-    dir %APPVEYOR_BUILD_FOLDER%
 
 artifacts:
-  - path: 'build'
-    name: master
-    type: zip
+  - path: 'build/ext/php_amqp.dll'
+  - path: 'build/ext/php_redis.dll'
