@@ -64,7 +64,7 @@ build_script:
 
     configure.bat --help | findstr win32service
 
-    configure.bat --disable-all --disable-zts  --with-openssl --enable-cli --with-amqp=shared --enable-redis=shared --with-config-file-scan-dir=C:\projects\php-win\build\modules.d --with-prefix=C:\projects\php-win\build --with-php-build=deps
+    configure.bat --disable-all --disable-zts  --with-openssl --enable-cli --with-amqp=shared --enable-redis=shared --enable-win32service=shared --with-config-file-scan-dir=C:\projects\php-win\build\modules.d --with-prefix=C:\projects\php-win\build --with-php-build=deps
 
     nmake
 
@@ -75,3 +75,4 @@ build_script:
 artifacts:
   - path: 'build/ext/php_amqp.dll'
   - path: 'build/ext/php_redis.dll'
+  - path: 'build/ext/php_win32service.dll'
