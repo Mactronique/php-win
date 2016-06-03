@@ -34,12 +34,6 @@ build_script:
     
     git checkout tags/v1.7.0 C:\projects\php-src\ext\amqp
     
-    git clone https://github.com/InExtenso/win32service.git C:\projects\php-src\ext\win32service
-    
-    cd C:\projects\php-src\ext\win32service
-    
-    git checkout tags/v0.1.0
-    
     cd %APPVEYOR_BUILD_FOLDER%
     
     git clone -q --branch=php7 https://github.com/phpredis/phpredis.git C:\projects\php-src\ext\phpredis
@@ -62,9 +56,7 @@ build_script:
 
     configure.bat --help | findstr redis
 
-    configure.bat --help | findstr win32service
-
-    configure.bat --disable-all --disable-zts  --with-openssl --enable-cli --with-amqp=shared --enable-redis=shared --enable-win32service=shared --with-config-file-scan-dir=C:\projects\php-win\build\modules.d --with-prefix=C:\projects\php-win\build --with-php-build=deps
+    configure.bat --disable-all --disable-zts  --with-openssl --enable-cli --with-amqp=shared --enable-redis=shared --with-config-file-scan-dir=C:\projects\php-win\build\modules.d --with-prefix=C:\projects\php-win\build --with-php-build=deps
 
     nmake
 
@@ -75,4 +67,3 @@ build_script:
 artifacts:
   - path: 'build/ext/php_amqp.dll'
   - path: 'build/ext/php_redis.dll'
-  - path: 'build/ext/php_win32service.dll'
