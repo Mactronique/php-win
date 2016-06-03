@@ -25,12 +25,16 @@ build_script:
     mkdir C:\projects\php-src\ext\amqp
     
     mkdir C:\projects\php-src\ext\phpredis
+    
+    mkdir C:\projects\php-src\ext\win32service
 
     git clone https://github.com/pdezwart/php-amqp.git C:\projects\php-src\ext\amqp
     
     cd C:\projects\php-src\ext\amqp
     
     git checkout tags/v1.7.0 C:\projects\php-src\ext\amqp
+    
+    svn co http://svn.php.net/viewvc/pecl/win32service/tags/win32service-0.1.0/ C:\projects\php-src\ext\win32service
     
     cd %APPVEYOR_BUILD_FOLDER%
     
@@ -53,6 +57,8 @@ build_script:
     configure.bat --help | findstr amqp
 
     configure.bat --help | findstr redis
+
+    configure.bat --help | findstr win32service
 
     configure.bat --disable-all --disable-zts  --with-openssl --enable-cli --with-amqp=shared --enable-redis=shared --with-config-file-scan-dir=C:\projects\php-win\build\modules.d --with-prefix=C:\projects\php-win\build --with-php-build=deps
 
