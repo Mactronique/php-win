@@ -34,7 +34,11 @@ build_script:
     
     git checkout tags/v1.7.0 C:\projects\php-src\ext\amqp
     
-    svn co http://svn.php.net/viewvc/pecl/win32service/tags/win32service-0.1.0/ C:\projects\php-src\ext\win32service
+    git clone https://github.com/InExtenso/win32service.git C:\projects\php-src\ext\win32service
+    
+    cd C:\projects\php-src\ext\win32service
+    
+    git checkout tags/v0.1.0
     
     cd %APPVEYOR_BUILD_FOLDER%
     
