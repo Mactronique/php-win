@@ -10,8 +10,14 @@ install:
 - cmd: cinst wget
 - cmd: mkdir C:\projects\php-win\build
 
+environment:
+  php_ver: 7.0.7
+  amqp_ver: v1.7.0
+
 build_script:
 - cmd: >-
+    set
+    
     "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall" amd64
 
     wget http://windows.php.net/downloads/php-sdk/php-sdk-binary-tools-20110915.zip
@@ -56,7 +62,7 @@ build_script:
 
     configure.bat --help | findstr redis
 
-    configure.bat --disable-all --disable-zts  --with-openssl --enable-cli --with-amqp=shared --enable-redis=shared --with-config-file-scan-dir=C:\projects\php-win\build\modules.d --with-prefix=C:\projects\php-win\build --with-php-build=deps
+    configure.bat --disable-all --disable-zts  --with-openssl --enable-cli --with-amqp=shared --enable-redis=shared --enable-redis-session --with-config-file-scan-dir=C:\projects\php-win\build\modules.d --with-prefix=C:\projects\php-win\build --with-php-build=deps
 
     nmake
 
