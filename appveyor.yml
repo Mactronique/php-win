@@ -67,7 +67,7 @@ build_script:
 
     configure.bat --help
 
-    configure.bat --disable-all --disable-zts  --with-openssl --enable-cli --with-amqp=shared --enable-redis=shared --enable-redis-session --with-config-file-scan-dir=C:\projects\php-win\build\modules.d --with-prefix=C:\projects\php-win\build --with-php-build=deps
+    configure.bat --disable-all --disable-zts  --with-openssl --enable-cli --enable-session --with-amqp=shared --enable-redis=shared --enable-redis-session --with-config-file-scan-dir=C:\projects\php-win\build\modules.d --with-prefix=C:\projects\php-win\build --with-php-build=deps
 
     nmake
 
