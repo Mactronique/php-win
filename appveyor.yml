@@ -11,7 +11,7 @@ install:
 - cmd: mkdir C:\projects\php-win\build
 
 environment:
-  php_ver: 7.7.0
+  php_ver: 7.1.0
   amqp_ver: v1.7.0
   redis_ver: 3.0.0
 
