@@ -75,10 +75,9 @@ build_script:
 
     cd %APPVEYOR_BUILD_FOLDER%\build\ext
 
-    rename php_amqp.dll php_amqp_nts_%amqp_ver%.dll
+    rename php_amqp.dll php_amqp-%amqp_ver%-7.0-vc14-nts-%BUILD_PLATFORM%.dll
 
-    rename php_redis.dll php_redis_nts_%redis_ver%.dll
+    rename php_redis.dll php_redis-%redis_ver%-7.0-vc14-nts-%BUILD_PLATFORM%.dll
 
 artifacts:
-  - path: 'build/ext/php_amqp_nts_{amqp_ver}.dll'
-  - path: 'build/ext/php_redis_nts_{redis_ver}.dll'
+  - path: 'build/ext/*.dll'
