@@ -15,16 +15,16 @@ environment:
   AMQP_TAG: v1.9.3
 
   matrix:
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      PHP_REL: 7.0
-      ARCHITECTURES: x64 x86
-      ZTS_STATES: enable disable
-      PHP_BUILD_CRT: vc14
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      PHP_REL: 7.1
-      ARCHITECTURES: x64 x86
-      ZTS_STATES: enable disable
-      PHP_BUILD_CRT: vc14
+#    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+#      PHP_REL: 7.0
+#      ARCHITECTURES: x64 x86
+#      ZTS_STATES: enable disable
+#      PHP_BUILD_CRT: vc14
+#    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+#      PHP_REL: 7.1
+#      ARCHITECTURES: x64 x86
+#      ZTS_STATES: enable disable
+#      PHP_BUILD_CRT: vc14
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       PHP_REL: 7.2
       ARCHITECTURES: x64 x86
