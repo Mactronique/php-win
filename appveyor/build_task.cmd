@@ -18,9 +18,10 @@ setlocal enableextensions enabledelayedexpansion
 	)
 	if %errorlevel% neq 0 exit /b 3
 
-	xcopy %APPVEYOR_BUILD_FOLDER%\include\*.h C:\projects\php-src\deps\include\ /y /f
+	xcopy %APPVEYOR_BUILD_FOLDER%\include\*.h %DEPS_DIR%\include\ /y /f
     
-    	xcopy %APPVEYOR_BUILD_FOLDER%\lib\%PHP_SDK_ARCH%\*.lib C:\projects\php-src\deps\lib\ /y /f
+    	xcopy %APPVEYOR_BUILD_FOLDER%\lib\%PHP_SDK_ARCH%\*.dll %DEPS_DIR%\lib\ /y /f
+    	xcopy %APPVEYOR_BUILD_FOLDER%\lib\%PHP_SDK_ARCH%\*.lib %DEPS_DIR%\lib\ /y /f
 
 	for %%z in (%ZTS_STATES%) do (
 		set ZTS_STATE=%%z
