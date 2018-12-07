@@ -50,7 +50,7 @@ setlocal enableextensions enabledelayedexpansion
 
 		if not exist "%APPVEYOR_BUILD_FOLDER%\build\ext\php_amqp.dll" exit /b 3
 
-		xcopy %APPVEYOR_BUILD_FOLDER%\lib\%PHP_SDK_ARCH%\*.lib %APPVEYOR_BUILD_FOLDER%\php_amqp-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%\ /y /f
+		xcopy %APPVEYOR_BUILD_FOLDER%\lib\%PHP_SDK_ARCH%\*.dll %APPVEYOR_BUILD_FOLDER%\php_amqp-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%\ /y /f
 		xcopy %APPVEYOR_BUILD_FOLDER%\build\ext\php_amqp.dll %APPVEYOR_BUILD_FOLDER%\php_amqp-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%\ /y /f
 		7z a php_amqp-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%.zip %APPVEYOR_BUILD_FOLDER%\php_amqp-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%\*
 		appveyor PushArtifact php_amqp-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%.zip -FileName php_amqp-%APPVEYOR_REPO_TAG_NAME%-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%.zip
